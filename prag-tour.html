@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prag Hafta Sonu Rehberi</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Lexend & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome İkonları -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', 'Lexend', sans-serif; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Lexend', sans-serif; }
+    html { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-12 antialiased">
+
+  <!-- Üst Başlık ve Lojistik Özeti -->
+  <header class="bg-gradient-to-r from-red-600 via-rose-700 to-amber-700 text-white shadow-lg sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 py-3.5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="p-2.5 bg-white/10 rounded-xl backdrop-blur-md">
+          <i class="fa-solid fa-compass text-2xl text-amber-300"></i>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-bold tracking-tight">Prag Hafta Sonu Rehberi</h1>
+          <p class="text-xs text-rose-100 flex items-center gap-2 flex-wrap">
+            <span><i class="fa-solid fa-plane-departure text-amber-300"></i> Cmt 07:00 SAW</span>
+            <span>•</span>
+            <span><i class="fa-solid fa-plane-arrival text-amber-300"></i> Paz 17:00 PRG</span>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Üst Navigasyon & Canlı Hava Durumu -->
+      <div class="flex items-center gap-2 flex-wrap justify-end">
+        <!-- Canlı Hava Durumu Widget (Open-Meteo) -->
+        <div id="weatherWidget" class="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full backdrop-blur-md text-xs font-medium">
+          <i class="fa-solid fa-cloud-sun text-amber-300 animate-pulse"></i>
+          <span>Prag Hava Durumu yükleniyor...</span>
+        </div>
+
+        <a href="#supermarket-info" class="px-3 py-1 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full text-xs font-semibold backdrop-blur-sm transition flex items-center gap-1">
+          <i class="fa-solid fa-basket-shopping text-emerald-300"></i> Marketler
+        </a>
+        <a href="#airbnb-details" class="px-3 py-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-200 border border-amber-300/40 rounded-full text-xs font-semibold backdrop-blur-sm transition flex items-center gap-1">
+          <i class="fa-solid fa-house-user text-amber-300"></i> Airbnb
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Ana İçerik Konteyneri -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 mt-6 space-y-8">
+
+    <!-- 1. Bölüm: Döviz Kuru Çevirici (CZK - TRY - EUR) -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 transition hover:shadow-md">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+          <div>
+            <h2 class="font-bold text-lg text-slate-800">Döviz Kuru Çevirici</h2>
+            <p class="text-xs text-slate-500">Prag içi harcamalar için anlık oran dönüşümü (Tahmini referans kurlar)</p>
+          </div>
+        </div>
+        <button id="resetRateBtn" title="Kurları Sıfırla" class="text-xs text-slate-400 hover:text-emerald-600 flex items-center gap-1 transition">
+          <i class="fa-solid fa-rotate-right"></i> Varsayılan
+        </button>
+      </div>
+
+      <!-- Kurlar ve Giriş Kutuları -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- CZK Girişi -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200 transition">
+          <label class="block text-xs font-semibold text-slate-500 mb-1 flex items-center justify-between">
+            <span>ÇEK KORUNASI (CZK)</span>
+            <span class="text-[11px] bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">Kč</span>
+          </label>
+          <div class="relative flex items-center">
+            <input type="number" id="czkInput" step="any" placeholder="0" class="w-full bg-transparent text-xl font-bold text-slate-800 outline-none pr-8">
+            <span class="absolute right-0 text-xs font-bold text-slate-400">CZK</span>
+          </div>
+        </div>
+
+        <!-- TRY Girişi -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200 transition">
+          <label class="block text-xs font-semibold text-slate-500 mb-1 flex items-center justify-between">
+            <span>TÜRK LİRASI (TRY)</span>
+            <span class="text-[11px] bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">₺</span>
+          </label>
+          <div class="relative flex items-center">
+            <input type="number" id="tryInput" step="any" placeholder="0" class="w-full bg-transparent text-xl font-bold text-slate-800 outline-none pr-8">
+            <span class="absolute right-0 text-xs font-bold text-slate-400">TRY</span>
+          </div>
+        </div>
+
+        <!-- EUR Girişi -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200 transition">
+          <label class="block text-xs font-semibold text-slate-500 mb-1 flex items-center justify-between">
+            <span>EURO (EUR)</span>
+            <span class="text-[11px] bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">€</span>
+          </label>
+          <div class="relative flex items-center">
+            <input type="number" id="eurInput" step="any" placeholder="0" class="w-full bg-transparent text-xl font-bold text-slate-800 outline-none pr-8">
+            <span class="absolute right-0 text-xs font-bold text-slate-400">EUR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ayarlanabilir Kur Bilgilendirmesi -->
+      <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+        <div class="flex items-center gap-3">
+          <span>1 EUR ≈ <strong id="rateEurCzk">25.20</strong> CZK</span>
+          <span>•</span>
+          <span>1 CZK ≈ <strong id="rateCzkTry">1.55</strong> TRY</span>
+        </div>
+        <span class="text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+          <i class="fa-solid fa-triangle-exclamation mr-1"></i> Sokakta Euro yerine kartla CZK ödemek en avantajlısıdır.
+        </span>
+      </div>
+    </section>
+
+    <!-- 2. Bölüm: Harita ve Kategorize Edilmiş Pinler -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="p-5 sm:p-6 border-b border-slate-100 flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 class="font-bold text-lg text-slate-800 flex items-center gap-2">
+              <i class="fa-solid fa-map-location-dot text-rose-500"></i> Prag Keşif ve Konum Haritası
+            </h2>
+            <p class="text-xs text-slate-500">Aşağıdaki kategorilere tıklayarak aradığınız tüm yerleri harita üzerinde toplu pinlenmiş olarak görüntüleyin.</p>
+          </div>
+          <button onclick="setMapQuery('Příčná 4, Praha 1')" class="self-start sm:self-auto px-3 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold rounded-xl flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-bed text-rose-500"></i> Airbnb Konumu (Příčná 4)
+          </button>
+        </div>
+
+        <!-- Kategori Filtre Sekmeleri -->
+        <div class="flex flex-wrap gap-1.5 text-xs font-medium border-b border-slate-200 pb-2.5 pt-1" id="categoryTabContainer">
+          <button onclick="selectCategory('gezi')" id="tab-gezi" class="cat-tab px-3.5 py-2 rounded-xl bg-rose-600 text-white font-semibold flex items-center gap-1.5 transition shadow-sm">
+            <i class="fa-solid fa-landmark"></i> Gezi Yerleri
+          </button>
+          <button onclick="selectCategory('market')" id="tab-market" class="cat-tab px-3.5 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-basket-shopping"></i> Marketler (Zincirler)
+          </button>
+          <button onclick="selectCategory('alisveris')" id="tab-alisveris" class="cat-tab px-3.5 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-bag-shopping"></i> Alışveriş Yerleri
+          </button>
+          <button onclick="selectCategory('ulasim')" id="tab-ulasim" class="cat-tab px-3.5 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-train-subway"></i> Toplu Taşıma
+          </button>
+          <button onclick="selectCategory('yemek')" id="tab-yemek" class="cat-tab px-3.5 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-utensils"></i> Yemek Yerleri
+          </button>
+        </div>
+
+        <!-- Kategori Alt Noktaları -->
+        <div id="categoryPlacesList" class="flex flex-wrap gap-1.5 text-xs pt-1">
+          <!-- JS dinamik doldurur -->
+        </div>
+      </div>
+
+      <!-- Harita Çerçevesi -->
+      <div class="relative w-full h-80 sm:h-96 bg-slate-100">
+        <iframe 
+          id="mapIframe"
+          class="w-full h-full border-0"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://maps.google.com/maps?q=Old+Town+Square+Charles+Bridge+Prague+Castle&t=&z=14&ie=UTF8&iwloc=&output=embed">
+        </iframe>
+      </div>
+      <div class="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
+        <span id="currentMapLabel" class="font-medium"><i class="fa-solid fa-layer-group text-rose-500 mr-1"></i> Gösterilen: Tüm Gezi Yerleri (Toplu Pinli)</span>
+        <a id="extMapLink" href="https://maps.google.com/?q=Prague+attractions" target="_blank" class="text-rose-600 hover:underline flex items-center gap-1">
+          Google Maps'te Aç <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- 3. Bölüm: Prag Market Zincirleri Bilgilendirme Kartı -->
+    <section id="supermarket-info" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden scroll-mt-20">
+      <div class="bg-gradient-to-r from-emerald-600 to-teal-700 p-4 sm:p-5 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <div>
+            <span class="text-xs uppercase tracking-wider font-semibold text-emerald-100">Alışveriş Rehberi</span>
+            <h2 class="text-lg sm:text-xl font-bold">Prag Süpermarket Zincirleri ve Segmentleri</h2>
+          </div>
+        </div>
+        <span class="text-xs bg-emerald-800/60 px-3 py-1 rounded-full border border-emerald-400/30">Hangi Market Hangi Sınıf?</span>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-4">
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Prag'da günlük atıştırmalık, su veya temel ihtiyaçlar için konaklayacağınız Nové Město (Prag 1) bölgesinde bulabileceğiniz resmi zincir marketler ve segmentleri:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <!-- Standart / Kaliteli -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="font-bold text-slate-800 flex items-center gap-1.5 text-sm">
+              <i class="fa-solid fa-star text-amber-500"></i> Billa & Albert (Supermarket)
+            </div>
+            <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 rounded font-semibold text-[10px]">Standart / Güvenilir</span>
+            <p class="text-slate-600 leading-relaxed">
+              Dairenize en yakın olanlar (örn. Vodičkova'daki Billa veya Karlovo náměstí'deki Albert). Taze sebze, fırın ürünleri ve geniş ürün yelpazesi sunar. Fiyatları orta segmenttir, şehir merkezinde en sık tercih edilenlerdir.
+            </p>
+          </div>
+
+          <!-- Hipermarket / Büyük Zincir -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="font-bold text-slate-800 flex items-center gap-1.5 text-sm">
+              <i class="fa-solid fa-shop text-emerald-600"></i> Tesco (My Národní)
+            </div>
+            <span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded font-semibold text-[10px]">Büyük Hipermarket</span>
+            <p class="text-slate-600 leading-relaxed">
+              Národní třída üzerinde çok katlı devasa bir tesco mağazası vardır. Aradığınız her şeyi en zengin çeşitlilikle bulabileceğiniz, hem gıda hem de hediyelik çikolata/atıştırmalık için harika bir noktadır.
+            </p>
+          </div>
+
+          <!-- İndirim / Ekonomik (Discount) -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="font-bold text-slate-800 flex items-center gap-1.5 text-sm">
+              <i class="fa-solid fa-tag text-rose-500"></i> Lidl & Penny Market
+            </div>
+            <span class="inline-block px-2 py-0.5 bg-rose-100 text-rose-700 rounded font-semibold text-[10px]">Ekonomik / İndirim (Discount)</span>
+            <p class="text-slate-600 leading-relaxed">
+              Bütçe dostu fiyatlarıyla bilinirler. Genellikle ara sokaklarda veya alışveriş merkezlerinde yer alırlar. Merkezde sayıları az olsa da su ve temel gıdayı en uygun fiyata almak için idealdir.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Bölüm: Sıralı Gezi ve Yemek Planı (1. ve 2. Gün) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- 1. Gün (Cumartesi) -->
+      <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-1 bg-rose-100 text-rose-700 font-bold rounded-lg text-xs">1. GÜN</span>
+              <h3 class="font-bold text-slate-800 text-base">Cumartesi: Doğu Yaka & Eski Kent</h3>
+            </div>
+            <span class="text-xs text-slate-400">10:30 – Akşam</span>
+          </div>
+
+          <!-- Adım Adım Liste -->
+          <div class="space-y-4">
+            <!-- Durak 1 -->
+            <div class="relative pl-6 border-l-2 border-rose-200 group">
+              <span class="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-rose-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-slate-800 cursor-pointer hover:text-rose-600 transition" onclick="setMapQuery('Old Town Square Prague')">
+                  1. Eski Kent Meydanı & Týn Kilisesi
+                </h4>
+                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-semibold">Ücretsiz</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">Şehrin kalbi; gotik ve barok binalar, sokak sanatçıları ve büyüleyici masalsı atmosfer.</p>
+            </div>
+
+            <!-- Durak 2 -->
+            <div class="relative pl-6 border-l-2 border-rose-200">
+              <span class="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-rose-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-slate-800 cursor-pointer hover:text-rose-600 transition" onclick="setMapQuery('Prague Astronomical Clock')">
+                  2. Astronomik Saat Kulesi (Orloj)
+                </h4>
+                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-semibold">Ücretsiz</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">Saat başı 12 havari mekanik figürünün hareketini meydandan izleyin.</p>
+              <div class="mt-1.5 p-2 bg-amber-50 border border-amber-200 rounded text-[11px] text-amber-800">
+                <strong>Opsiyonel Bilet:</strong> Belediye binası kule tepesine çıkıp tüm çatılara panoramik bakış (~250 CZK).
+              </div>
+            </div>
+
+            <!-- Yemek Durağı 1 -->
+            <div class="relative pl-6 border-l-2 border-amber-300 bg-amber-50/50 p-2.5 rounded-r-lg">
+              <span class="absolute -left-1.5 top-2 w-3 h-3 rounded-full bg-amber-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-amber-900 cursor-pointer hover:underline" onclick="setMapQuery('Havelska Koruna Prague')">
+                  <i class="fa-solid fa-utensils text-amber-600 mr-1"></i> Öğle: Havelská Koruna
+                </h4>
+                <span class="text-[10px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-bold">Esnaf Lokantası</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-0.5">Self-servis uygun fiyatlı Çek mutfağı: Gulaş, knedlíky (ekmek köftesi) veya smažený sýr.</p>
+            </div>
+
+            <!-- Durak 3 -->
+            <div class="relative pl-6 border-l-2 border-rose-200">
+              <span class="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-rose-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-slate-800 cursor-pointer hover:text-rose-600 transition" onclick="setMapQuery('Charles Bridge Prague')">
+                  3. Karl Köprüsü (Karlův Most)
+                </h4>
+                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-semibold">Ücretsiz</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">14. yüzyıldan kalma tarihi taş köprü ve 30 gotik/barok heykel. Gün batımında nehir manzarası.</p>
+            </div>
+
+            <!-- Durak 4 -->
+            <div class="relative pl-6 border-l-2 border-rose-200">
+              <span class="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-rose-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-slate-800 cursor-pointer hover:text-rose-600 transition" onclick="setMapQuery('John Lennon Wall Prague')">
+                  4. Lennon Duvarı & Kampa Adası
+                </h4>
+                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-semibold">Ücretsiz</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">Köprüden Malá Strana'ya inince barış ve özgürlük mesajlarıyla dolu sürekli yenilenen sokak sanatı.</p>
+            </div>
+
+            <!-- Akşam Durağı -->
+            <div class="relative pl-6 border-l-2 border-amber-300 bg-amber-50/50 p-2.5 rounded-r-lg">
+              <span class="absolute -left-1.5 top-2 w-3 h-3 rounded-full bg-amber-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-amber-900 cursor-pointer hover:underline" onclick="setMapQuery('Lokal Dlouha Prague')">
+                  <i class="fa-solid fa-beer-mug-empty text-amber-600 mr-1"></i> Akşam: Lokál Dlouhááá
+                </h4>
+                <span class="text-[10px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-bold">Geleneksel Pub</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-0.5">Otantik ahşap masalar, taze yerel mutfak ve tipik Prag pub ortamı.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+          <span>Ulaşım: Yürüyerek veya Tramvay 22</span>
+          <span class="text-emerald-600 font-medium">Gün Boyu Yürüyüş Rotası</span>
+        </div>
+      </section>
+
+      <!-- 2. Gün (Pazar) -->
+      <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-1 bg-blue-100 text-blue-700 font-bold rounded-lg text-xs">2. GÜN</span>
+              <h3 class="font-bold text-slate-800 text-base">Pazar: Kale Bölgesi & Dönüş</h3>
+            </div>
+            <span class="text-xs text-slate-400">09:00 – 14:00</span>
+          </div>
+
+          <!-- Adım Adım Liste -->
+          <div class="space-y-4">
+            <!-- Durak 1 -->
+            <div class="relative pl-6 border-l-2 border-blue-200">
+              <span class="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-blue-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-slate-800 cursor-pointer hover:text-blue-600 transition" onclick="setMapQuery('Prague Castle')">
+                  1. Prag Kalesi Yerleşkesi & Avluları
+                </h4>
+                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-semibold">Ücretsiz Avlular</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">Avlu gezileri, nöbet değişimi ve kale terasından kesintisiz kırmızı çatı panoraması.</p>
+            </div>
+
+            <!-- Durak 2 -->
+            <div class="relative pl-6 border-l-2 border-blue-200">
+              <span class="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-blue-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-slate-800 cursor-pointer hover:text-blue-600 transition" onclick="setMapQuery('St Vitus Cathedral Prague')">
+                  2. Aziz Vitus Katedrali & Altın Yol
+                </h4>
+                <span class="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">Önerilen Bilet</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">Katedralin giriş holü ücretsiz gezilebilir.</p>
+              <div class="mt-1.5 p-2 bg-purple-50 border border-purple-200 rounded text-[11px] text-purple-900">
+                <strong>⭐ Kesin Değer Bilet Önerisi:</strong> Katedral içi, Eski Kraliyet Sarayı ve masalsı Altın Yol evlerini kapsayan kombine bilet (~250-450 CZK).
+              </div>
+            </div>
+
+            <!-- Yemek / Dinlenme Durağı -->
+            <div class="relative pl-6 border-l-2 border-amber-300 bg-amber-50/50 p-2.5 rounded-r-lg">
+              <span class="absolute -left-1.5 top-2 w-3 h-3 rounded-full bg-amber-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-amber-900 cursor-pointer hover:underline" onclick="setMapQuery('U Glaubicu Prague')">
+                  <i class="fa-solid fa-utensils text-amber-600 mr-1"></i> Öğle: U Glaubiců
+                </h4>
+                <span class="text-[10px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-bold">700 Yıllık Mahzen</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-0.5">Kale inişinde Malostranské Meydanı'nda fırında domuz incik, çorbalar ve bütçe dostu menü.</p>
+            </div>
+
+            <!-- Tatlı / Kahve Molası -->
+            <div class="relative pl-6 border-l-2 border-amber-300 bg-amber-50/50 p-2.5 rounded-r-lg">
+              <span class="absolute -left-1.5 top-2 w-3 h-3 rounded-full bg-amber-500 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-amber-900 cursor-pointer hover:underline" onclick="setMapQuery('Cafe Louvre Prague')">
+                  <i class="fa-solid fa-mug-hot text-amber-600 mr-1"></i> Kahve Molası: Café Louvre
+                </h4>
+                <span class="text-[10px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-bold">Tarihi Kafe</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-0.5">Kafka ve Einstein'ın da uğrak noktası olan Viyana tarzı tarihi kafede elmalı strudel.</p>
+            </div>
+
+            <!-- Havalimanı Ayrılış -->
+            <div class="relative pl-6 border-l-2 border-red-400 bg-red-50/60 p-2.5 rounded-r-lg">
+              <span class="absolute -left-1.5 top-2 w-3 h-3 rounded-full bg-red-600 border-2 border-white"></span>
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-red-900">
+                  <i class="fa-solid fa-plane-departure text-red-600 mr-1"></i> 14:00 - Havalimanına Hareket
+                </h4>
+                <span class="text-[10px] bg-red-200 text-red-800 px-1.5 py-0.5 rounded font-bold">En Geç Çıkış</span>
+              </div>
+              <p class="text-xs text-slate-700 mt-1">
+                <strong>Rota:</strong> Metro A (Yeşil Hat) ➔ <em>Nádraží Veleslavín</em> istasyonu ➔ <strong>59 Nolu Troleybüs</strong> ile doğrudan Terminale (Yaklaşık 35-40 dk).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+          <span>Havalimanında olma hedefi: <strong>15:00</strong></span>
+          <span class="text-red-600 font-semibold">Kalkış: 17:00</span>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- 5. Bölüm: Airbnb Konaklama ve Kurallar (Aşağı Taşındı) -->
+    <section id="airbnb-details" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden scroll-mt-20">
+      <div class="bg-gradient-to-r from-rose-500 to-amber-600 p-4 sm:p-5 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl">
+            <i class="fa-solid fa-house-chimney"></i>
+          </div>
+          <div>
+            <span class="text-xs uppercase tracking-wider font-semibold text-rose-100">Konaklama Bilgileri & Kurallar</span>
+            <h2 class="text-lg sm:text-xl font-bold">Příčná 1892/4, Nové Město, Prag 1</h2>
+          </div>
+        </div>
+        <button onclick="setMapQuery('Příčná 1892/4, 110 00 Praha 1')" class="self-start sm:self-auto px-3.5 py-1.5 bg-white text-rose-700 text-xs font-bold rounded-lg shadow-sm hover:bg-rose-50 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-location-arrow"></i> Konumu Haritada Gör
+        </button>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <h3 class="font-bold text-sm text-slate-800 mb-1.5 flex items-center gap-2">
+              <i class="fa-solid fa-circle-info text-rose-500"></i> Bu Mekân Hakkında
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Küçük ama rahat dairemiz Prag'da konaklamanız için mükemmel olacak. Rahat bir atmosfer sunuyor ve Wenceslas Meydanı'na sadece birkaç dakika mesafede mükemmel merkezi erişim sağlıyor. Sizi ağırlamaktan memnuniyet duyarız!
+            </p>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <h3 class="font-bold text-sm text-slate-800 mb-1.5 flex items-center gap-2">
+              <i class="fa-solid fa-couch text-amber-600"></i> Olanaklar & Erişim
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-2">
+              Daire iki kişiliktir. Donanımlı küçük bir mini mutfak, yemek alanı, çok rahat bir <strong>balkon</strong>, geniş duşlu banyo ve çamaşır makinesi bulunmaktadır. Tüm daire tamamen kullanımınıza aittir.
+            </p>
+          </div>
+        </div>
+
+        <!-- Ev Kuralları -->
+        <div>
+          <h3 class="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Dikkat Edilecek Diğer Şeyler & Ev Kuralları
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="p-3.5 rounded-xl border-2 border-red-200 bg-red-50/50">
+              <div class="font-bold text-red-900 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-moon text-red-600"></i> 23:00 - 08:00 Gece Huzuru
+              </div>
+              <p class="text-red-700 leading-relaxed">
+                Gece huzurunu bozma veya komşulardan şikayet gelmesi durumunda <strong>100 € ücret</strong> yansıtılır.
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border-2 border-red-200 bg-red-50/50">
+              <div class="font-bold text-red-900 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-ban-smoking text-red-600"></i> Sigara İçmek Yasaktır
+              </div>
+              <p class="text-red-700 leading-relaxed">
+                Tüm daire içerisinde ve tüm bina genelinde sigara içilmesi kesinlikle yasaktır.
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border-2 border-amber-200 bg-amber-50/50">
+              <div class="font-bold text-amber-900 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-volume-xmark text-amber-600"></i> Yüksek Sesli Müzik Yasak
+              </div>
+              <p class="text-amber-800 leading-relaxed">
+                Binadaki diğer kiracıların huzuruna saygı göstermek zorunludur. Gün içinde dahi rahatsız edici müzik açılmamalıdır.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Geç Giriş Ücretleri -->
+        <div class="bg-slate-100 p-3.5 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-3">
+          <div class="flex items-center gap-2 text-slate-700">
+            <i class="fa-solid fa-clock text-indigo-600 text-sm"></i>
+            <div>
+              <span class="font-bold">Geç Giriş Ek Ücretleri:</span>
+              <span class="text-slate-600 ml-1">20:00'den sonra <strong>20 €</strong> | 22:00'den sonra <strong>40 €</strong></span>
+            </div>
+          </div>
+          <div class="text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200 text-[11px] font-semibold flex items-center gap-1 shrink-0">
+            <i class="fa-solid fa-circle-check"></i> Planınız: Cumartesi sabah varış (Ek ücret yok)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Bölüm: Pratik Çekçe Sözlük -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-language"></i>
+          </div>
+          <div>
+            <h2 class="font-bold text-lg text-slate-800">Pratik Çekçe Sözlük</h2>
+            <p class="text-xs text-slate-500">Restoran, toplu taşıma ve alışverişte hayat kurtaran kalıplar ve okunuşları</p>
+          </div>
+        </div>
+        <span class="text-xs text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full font-medium">Turist Rehberi</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="vocabGrid">
+        <!-- JS ile doldurulur -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Uygulama Betiği -->
+  <script>
+    // --- Canlı Hava Durumu Yükleme (Open-Meteo API) ---
+    async function loadPragueWeather() {
+      const widget = document.getElementById('weatherWidget');
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=50.0755&longitude=14.4378&current=temperature_2m,weather_code');
+        const data = await res.json();
+        if (data && data.current) {
+          const temp = Math.round(data.current.temperature_2m);
+          const code = data.current.weather_code;
+          let desc = "Parçalı Bulutlu";
+          let icon = "fa-cloud-sun";
+          if (code === 0) { desc = "Açık"; icon = "fa-sun"; }
+          else if (code >= 1 && code <= 3) { desc = "Bulutlu"; icon = "fa-cloud"; }
+          else if (code >= 51 && code <= 67) { desc = "Yağmurlu"; icon = "fa-cloud-rain"; }
+
+          widget.innerHTML = `
+            <i class="fa-solid ${icon} text-amber-300"></i>
+            <span>Prag: <strong>${temp}°C</strong> (${desc})</span>
+          `;
+        }
+      } catch (e) {
+        widget.innerHTML = `<i class="fa-solid fa-cloud-sun text-amber-300"></i> <span>Prag: Hava durumu alınamadı</span>`;
+      }
+    }
+    loadPragueWeather();
+
+    // --- Harita Kategori Verileri & Toplu Pin Sorguları ---
+    const placeCategories = {
+      gezi: {
+        query: "Old Town Square Charles Bridge Prague Castle Old Town Hall Prague",
+        label: "Tüm Gezi Yerleri (Toplu Pinli)",
+        items: [
+          { name: "Eski Kent Meydanı", q: "Old Town Square Prague", desc: "Tarihi meydan" },
+          { name: "Astronomik Saat", q: "Prague Astronomical Clock", desc: "Mekanik kule" },
+          { name: "Karl Köprüsü", q: "Charles Bridge Prague", desc: "Taş köprü" },
+          { name: "Prag Kalesi", q: "Prague Castle", desc: "Kraliyet sarayı" },
+          { name: "Lennon Duvarı", q: "John Lennon Wall Prague", desc: "Sanat duvarı" },
+          { name: "Wenceslas Meydanı", q: "Wenceslas Square Prague", desc: "Ana bulvar" }
+        ]
+      },
+      market: {
+        query: "Billa Vodickova Albert Karlovo namesti Tesco Narodni Prague supermarkets",
+        label: "Merkezdeki Resmi Zincir Marketler (Billa, Albert, Tesco)",
+        items: [
+          { name: "Billa Supermarket (Vodičkova)", q: "Billa Vodickova Prague", desc: "Daireye çok yakın standart zincir" },
+          { name: "Albert Supermarket (Karlovo náměstí)", q: "Albert Karlovo namesti Prague", desc: "Geniş reyonlu süpermarket" },
+          { name: "Tesco My Národní", q: "Tesco Narodni Prague", desc: "Dev çok katlı süpermarket" },
+          { name: "Billa Supermarket (Florenc / Merkez)", q: "Billa Prague center", desc: "Merkezi şube" }
+        ]
+      },
+      alisveris: {
+        query: "Palladium Prague Na Prikope Quadrio shopping center",
+        label: "Alışveriş Merkezleri ve Caddeler",
+        items: [
+          { name: "Palladium AVM", q: "Palladium Prague", desc: "200+ mağazalı büyük AVM" },
+          { name: "Na Příkopě Caddesi", q: "Na Prikope Prague", desc: "Lüks mağazalar ve markalar" },
+          { name: "Havelská Tarihi Pazarı", q: "Havelske trziste Prague", desc: "El sanatları ve hediyelik" },
+          { name: "Quadrio AVM", q: "Quadrio Shopping Station Prague", desc: "Kafka heykeli yanı" }
+        ]
+      },
+      ulasim: {
+        query: "Karlovo namesti Metro Mustek Metro Vaclav Havel Airport Prague",
+        label: "Metro İstasyonları ve Havalimanı Rota Noktaları",
+        items: [
+          { name: "Karlovo Náměstí Metro (Hat B)", q: "Karlovo namesti Metro Station Prague", desc: "Daireye en yakın metro" },
+          { name: "Můstek Metro (Hat A & B)", q: "Mustek Metro Station Prague", desc: "Merkezi aktarma" },
+          { name: "Nádraží Veleslavín", q: "Nadrazi Veleslavin Prague", desc: "Havalimanı troleybüs aktarması" },
+          { name: "Prag Havalimanı (PRG)", q: "Vaclav Havel Airport Prague", desc: "Terminaller" }
+        ]
+      },
+      yemek: {
+        query: "Havelska Koruna Lokal Dlouha U Glaubicu Cafe Louvre Prague restaurants",
+        label: "Yemek ve Pub Durakları (Toplu Pinli)",
+        items: [
+          { name: "Havelská Koruna", q: "Havelska Koruna Prague", desc: "Bütçe dostu esnaf lokantası" },
+          { name: "Lokál Dlouhááá", q: "Lokal Dlouha Prague", desc: "Geleneksel Çek pub ve mutfak" },
+          { name: "U Glaubiců", q: "U Glaubicu Prague", desc: "700 yıllık kale eteği mahzeni" },
+          { name: "Café Louvre", q: "Cafe Louvre Prague", desc: "Tarihi Viyana tarzı kafe" }
+        ]
+      }
+    };
+
+    function renderCategoryPlaces(categoryKey) {
+      const catData = placeCategories[categoryKey];
+      const listContainer = document.getElementById('categoryPlacesList');
+      listContainer.innerHTML = "";
+
+      catData.items.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = "px-2.5 py-1.5 bg-slate-100 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 border border-slate-200 rounded-xl text-slate-700 transition flex items-center gap-1 font-medium";
+        btn.innerHTML = `<span>${item.name}</span> <span class="text-[10px] text-slate-400">(${item.desc})</span>`;
+        btn.onclick = () => setSingleMapQuery(item.q, item.name);
+        listContainer.appendChild(btn);
+      });
+
+      // Haritayı kategoriye ait toplu sorguyla güncelle
+      setMapQuery(catData.query, catData.label);
+    }
+
+    window.selectCategory = function(categoryKey) {
+      document.querySelectorAll('.cat-tab').forEach(btn => {
+        btn.className = "cat-tab px-3.5 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition";
+      });
+      const activeBtn = document.getElementById(`tab-${categoryKey}`);
+      if (activeBtn) {
+        activeBtn.className = "cat-tab px-3.5 py-2 rounded-xl bg-rose-600 text-white font-semibold flex items-center gap-1.5 transition shadow-sm";
+      }
+      renderCategoryPlaces(categoryKey);
+    };
+
+    window.setMapQuery = function(queryStr, labelText) {
+      const encoded = encodeURIComponent(queryStr);
+      const mapIframe = document.getElementById('mapIframe');
+      const currentMapLabel = document.getElementById('currentMapLabel');
+      const extMapLink = document.getElementById('extMapLink');
+
+      mapIframe.src = `https://maps.google.com/maps?q=${encoded}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+      currentMapLabel.innerHTML = `<i class="fa-solid fa-layer-group text-rose-500 mr-1"></i> Gösterilen: ${labelText || queryStr}`;
+      extMapLink.href = `https://maps.google.com/?q=${encoded}`;
+    };
+
+    window.setSingleMapQuery = function(locationName, displayName) {
+      const encoded = encodeURIComponent(locationName);
+      const mapIframe = document.getElementById('mapIframe');
+      const currentMapLabel = document.getElementById('currentMapLabel');
+      const extMapLink = document.getElementById('extMapLink');
+
+      mapIframe.src = `https://maps.google.com/maps?q=${encoded}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+      currentMapLabel.innerHTML = `<i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> Gösterilen Nokta: ${displayName || locationName}`;
+      extMapLink.href = `https://maps.google.com/?q=${encoded}`;
+      mapIframe.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    // İlk yükleme (Gezi Yerleri)
+    selectCategory('gezi');
+
+    // --- Çekçe Sözlük Verisi ---
+    const phrases = [
+      { tr: "Merhaba / İyi günler", cz: "Dobrý den", pr: "Dob-rii den", icon: "fa-hand" },
+      { tr: "Teşekkür ederim", cz: "Děkuji / Díky", pr: "Dye-kuyi / Dii-ki", icon: "fa-heart" },
+      { tr: "Lütfen / Rica ederim", cz: "Prosím", pr: "Pro-siim", icon: "fa-hands-praying" },
+      { tr: "Evet / Hayır", cz: "Ano / Ne", pr: "A-no / Ne", icon: "fa-check" },
+      { tr: "Hesap lütfen", cz: "Účet, prosím", pr: "Uu-çet pro-siim", icon: "fa-receipt" },
+      { tr: "Kartla ödeyebilir miyim?", cz: "Mohu platit kartou?", pr: "Mo-hu pla-tit kar-tou?", icon: "fa-credit-card" },
+      { tr: "İngilizce biliyor musunuz?", cz: "Mluvíte anglicky?", pr: "Mlu-vii-te ang-lits-ki?", icon: "fa-comments" },
+      { tr: "Afedersiniz / Özür dilerim", cz: "Promiňte", pr: "Pro-min-te", icon: "fa-person-falling" },
+      { tr: "Bir bira / su lütfen", cz: "Jedno pivo / vodu, prosím", pr: "Yed-no pi-vo / vo-du pro-siim", icon: "fa-beer-mug-empty" },
+      { tr: "Bu ne kadar?", cz: "Kolik to stojí?", pr: "Ko-lik to sto-yii?", icon: "fa-tag" },
+      { tr: "Güle güle", cz: "Na shledanou", pr: "Nas-hleh-dah-noh", icon: "fa-person-walking-arrow-right" },
+      { tr: "İmdat / Yardım edin", cz: "Pomoc!", pr: "Po-mots!", icon: "fa-triangle-exclamation" }
+    ];
+
+    const vocabGrid = document.getElementById('vocabGrid');
+    phrases.forEach(item => {
+      const card = document.createElement('div');
+      card.className = "bg-slate-50 hover:bg-indigo-50/50 p-3 rounded-xl border border-slate-200 hover:border-indigo-200 transition flex items-start gap-3";
+      card.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-white shadow-xs border border-slate-200 text-indigo-600 flex items-center justify-center shrink-0 text-sm">
+          <i class="fa-solid ${item.icon}"></i>
+        </div>
+        <div class="overflow-hidden">
+          <div class="text-xs text-slate-500 font-medium">${item.tr}</div>
+          <div class="text-sm font-bold text-slate-800 tracking-tight">${item.cz}</div>
+          <div class="text-[11px] text-indigo-600 italic">Okunuş: ${item.pr}</div>
+        </div>
+      `;
+      vocabGrid.appendChild(card);
+    });
+
+    // --- Döviz Kuru Çevirici ---
+    const DEFAULT_EUR_CZK = 25.20;
+    const DEFAULT_CZK_TRY = 1.55;
+
+    let eurCzkRate = DEFAULT_EUR_CZK;
+    let czkTryRate = DEFAULT_CZK_TRY;
+
+    const czkInput = document.getElementById('czkInput');
+    const tryInput = document.getElementById('tryInput');
+    const eurInput = document.getElementById('eurInput');
+    const resetRateBtn = document.getElementById('resetRateBtn');
+
+    function updateFromCZK(val) {
+      if (val === "" || isNaN(val)) {
+        tryInput.value = "";
+        eurInput.value = "";
+        return;
+      }
+      const czk = parseFloat(val);
+      tryInput.value = (czk * czkTryRate).toFixed(2);
+      eurInput.value = (czk / eurCzkRate).toFixed(2);
+    }
+
+    function updateFromTRY(val) {
+      if (val === "" || isNaN(val)) {
+        czkInput.value = "";
+        eurInput.value = "";
+        return;
+      }
+      const tl = parseFloat(val);
+      const czk = tl / czkTryRate;
+      czkInput.value = czk.toFixed(2);
+      eurInput.value = (czk / eurCzkRate).toFixed(2);
+    }
+
+    function updateFromEUR(val) {
+      if (val === "" || isNaN(val)) {
+        czkInput.value = "";
+        tryInput.value = "";
+        return;
+      }
+      const eur = parseFloat(val);
+      const czk = eur * eurCzkRate;
+      czkInput.value = czk.toFixed(2);
+      tryInput.value = (czk * czkTryRate).toFixed(2);
+    }
+
+    czkInput.addEventListener('input', (e) => updateFromCZK(e.target.value));
+    tryInput.addEventListener('input', (e) => updateFromTRY(e.target.value));
+    eurInput.addEventListener('input', (e) => updateFromEUR(e.target.value));
+
+    resetRateBtn.addEventListener('click', () => {
+      czkInput.value = "100";
+      updateFromCZK(100);
+    });
+
+    czkInput.value = "100";
+    updateFromCZK(100);
+  </script>
+</body>
+</html>
