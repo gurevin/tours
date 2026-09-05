@@ -60,6 +60,9 @@
           <span>Prag Hava Yükleniyor...</span>
         </div>
 
+        <a href="#gemini-asistan" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400/50 rounded-full text-xs font-bold backdrop-blur-sm transition flex items-center gap-1 shadow-sm">
+          <i class="fa-solid fa-sparkles text-amber-300"></i> Gemini Asistan
+        </a>
         <a href="#gezi-plani" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full text-xs font-semibold backdrop-blur-sm transition flex items-center gap-1">
           <i class="fa-solid fa-route text-amber-300"></i> Gezi Planı
         </a>
@@ -141,6 +144,159 @@
         <span class="text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
           <i class="fa-solid fa-credit-card mr-1"></i> Tüm yerlerde kartla CZK ödemek en avantajlısıdır.
         </span>
+      </div>
+    </section>
+
+    <!-- GEMINI 3 FLASH YAPAY ZEKA SEYAHAT ASİSTANI (SOHBET & GÖRSEL MENÜ ANALİZİ) -->
+    <section id="gemini-asistan" class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 rounded-2xl shadow-lg border border-indigo-800/60 p-5 sm:p-6 text-white scroll-mt-20">
+      <!-- Üst Başlık & Sekmeler -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-800/50 pb-4 mb-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600/40 border border-indigo-400/30 flex items-center justify-center text-amber-300 text-xl shadow-inner">
+            <i class="fa-solid fa-sparkles"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="font-bold text-lg text-white">Gemini 3 Flash Seyahat Danışmanı</h2>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-semibold">Canlı & Kişiselleştirilmiş</span>
+            </div>
+            <p class="text-xs text-indigo-200">Příčná 4'teki dairenizi, uçuş saatlerinizi (14:00 ayrılış) ve et hassasiyetlerinizi bilen asistanınız</p>
+          </div>
+        </div>
+
+        <!-- Sekme Geçiş Butonları -->
+        <div class="flex items-center bg-slate-800/80 p-1 rounded-xl border border-indigo-700/40 text-xs self-start sm:self-auto">
+          <button id="tabChatBtn" onclick="switchAITab('chat')" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-semibold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-regular fa-comments"></i> <span>Soru Sor</span>
+          </button>
+          <button id="tabVisionBtn" onclick="switchAITab('vision')" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-1.5">
+            <i class="fa-solid fa-camera"></i> <span>Menü / Tabela Fotoğrafı</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. SEKME: METİN VE SOHBET PANELİ -->
+      <div id="aiChatPanel" class="space-y-4">
+        <!-- Hazır Hızlı Soru Hapları -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+          <span class="text-[11px] text-indigo-300 shrink-0 mr-1"><i class="fa-solid fa-bolt text-amber-400"></i> Hızlı Sor:</span>
+          <button onclick="sendQuickPrompt('Příčná 4 adresindeki dairemize yürüme mesafesinde en iyi fırın ve kahvaltı mekanı nerede?')" class="px-2.5 py-1 rounded-lg bg-indigo-900/60 hover:bg-indigo-800 text-indigo-200 hover:text-white border border-indigo-700/40 shrink-0 transition">
+            🥐 Yakındaki En İyi Kahvaltı & Fırın
+          </button>
+          <button onclick="sendQuickPrompt('Prag mutfağında kesinlikle domuz eti içermeyen en güvenli geleneksel yemekler hangileri?')" class="px-2.5 py-1 rounded-lg bg-indigo-900/60 hover:bg-indigo-800 text-indigo-200 hover:text-white border border-indigo-700/40 shrink-0 transition">
+            🥩 Domuz Eti İçermeyen Lezzetler
+          </button>
+          <button onclick="sendQuickPrompt('Pazar günü saat 14:00te daireden havalimanına en hızlı toplu taşıma bilet ve aktarması nasıl olmalı?')" class="px-2.5 py-1 rounded-lg bg-indigo-900/60 hover:bg-indigo-800 text-indigo-200 hover:text-white border border-indigo-700/40 shrink-0 transition">
+            ✈️ Havalimanı Dönüş Bileti & Rota
+          </button>
+          <button onclick="sendQuickPrompt('Prag restoranlarında hesap öderken bahşiş kuralı ve oranı nedir?')" class="px-2.5 py-1 rounded-lg bg-indigo-900/60 hover:bg-indigo-800 text-indigo-200 hover:text-white border border-indigo-700/40 shrink-0 transition">
+            💡 Bahşiş Kültürü ve Adabı
+          </button>
+        </div>
+
+        <!-- Sohbet Akış Penceresi -->
+        <div id="aiChatOutput" class="min-h-[140px] max-h-[320px] overflow-y-auto bg-slate-950/60 rounded-xl border border-indigo-900/50 p-4 space-y-3 text-xs">
+          <div class="flex items-start gap-2.5 text-indigo-200">
+            <i class="fa-solid fa-sparkles text-amber-300 text-sm mt-0.5 shrink-0"></i>
+            <div>
+              <p class="font-semibold text-white mb-1">Merhaba! Prag geziniz boyunca 7/24 yanınızdayım.</p>
+              <p>Příčná 4'teki evinizden rota önerileri, domuz eti kontrolü, biletleme veya acil durumlar hakkında aklınıza takılan her şeyi sorabilirsiniz.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Soru Yazma ve Gönderme Alanı -->
+        <div class="flex gap-2">
+          <div class="relative flex-1">
+            <input 
+              type="text" 
+              id="aiUserInput" 
+              placeholder="Prag hakkında bir soru sorun (Örn: Şu an Karl Köprüsü yakınındayım, nereye gideyim?)..." 
+              class="w-full bg-slate-950/80 border border-indigo-700/50 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition"
+            >
+          </div>
+          <button 
+            id="aiSendBtn" 
+            onclick="askGeminiChat()" 
+            class="px-4 py-2.5 bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition shadow-sm disabled:opacity-50"
+          >
+            <i class="fa-solid fa-paper-plane"></i> <span>Gönder</span>
+          </button>
+          <button 
+            onclick="clearChatOutput()" 
+            title="Sohbeti Temizle" 
+            class="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-xl text-xs transition"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. SEKME: GÖRSEL ANALİZ PANELİ (MENÜ & TABELA) -->
+      <div id="aiVisionPanel" class="hidden space-y-4">
+        <p class="text-xs text-indigo-200">
+          Bir restoranda gelen Çekçe menünün veya anlamadığınız bir sokak tabelasının fotoğrafını yükleyin; Gemini yemekleri Türkçe özetlesin ve <strong>domuz eti/alerjen</strong> kontrolü yapsın.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Sol: Fotoğraf Yükleme / Çekme Alanı -->
+          <div class="bg-slate-950/60 border-2 border-dashed border-indigo-700/60 hover:border-indigo-500 rounded-xl p-4 flex flex-col items-center justify-center text-center relative transition min-h-[170px]">
+            <input 
+              type="file" 
+              id="visionFileInput" 
+              accept="image/*" 
+              capture="environment" 
+              onchange="previewVisionImage(event)" 
+              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+            >
+            <div id="uploadPlaceholder" class="space-y-2">
+              <div class="w-10 h-10 rounded-full bg-indigo-600/30 text-amber-300 mx-auto flex items-center justify-center text-lg">
+                <i class="fa-solid fa-camera"></i>
+              </div>
+              <p class="text-xs font-bold text-white">Menü veya Tabela Fotoğrafı Seç / Çek</p>
+              <p class="text-[10px] text-slate-400">Telefon kamerasıyla çekebilir veya galeriden yükleyebilirsiniz</p>
+            </div>
+            <div id="imagePreviewContainer" class="hidden w-full flex flex-col items-center">
+              <img id="visionImagePreview" src="" alt="Menü Önizleme" class="max-h-36 rounded-lg object-contain border border-indigo-500/50 mb-2 shadow-sm">
+              <span class="text-[10px] text-emerald-400 font-semibold"><i class="fa-solid fa-circle-check"></i> Fotoğraf seçildi (Değiştirmek için tıkla)</span>
+            </div>
+          </div>
+
+          <!-- Sağ: İstek ve Çözümle Butonu -->
+          <div class="flex flex-col justify-between space-y-3 bg-slate-950/40 p-4 rounded-xl border border-indigo-900/40">
+            <div>
+              <label class="block text-[11px] font-bold text-indigo-200 mb-1">Özel İstek / Odak Noktası:</label>
+              <input 
+                type="text" 
+                id="visionPrompt" 
+                value="Bu Çekçe menüyü açıkla, yemekleri Türkçe özetle ve domuz eti kontrolü yap." 
+                class="w-full bg-slate-900 border border-indigo-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400"
+              >
+              <p class="text-[10px] text-slate-400 mt-1">Örn: "Hangileri dana eti?", "Fiyatlar uygun mu?", "Vejetaryen seçenek var mı?"</p>
+            </div>
+
+            <button 
+              id="visionAnalyzeBtn" 
+              onclick="analyzeVisionImage()" 
+              class="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition shadow-sm disabled:opacity-50"
+            >
+              <i class="fa-solid fa-magnifying-glass"></i> <span>Fotoğrafı Çözümle</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Görsel Analiz Çıktı Kutusu -->
+        <div id="visionOutputContainer" class="hidden bg-slate-950/80 rounded-xl border border-indigo-800/60 p-4 space-y-2 text-xs">
+          <div class="flex items-center justify-between border-b border-indigo-800/40 pb-2">
+            <span class="font-bold text-amber-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-file-lines"></i> Menü / Görsel Analiz Sonucu
+            </span>
+            <button onclick="copyVisionOutput()" class="text-[10px] text-indigo-300 hover:text-white transition flex items-center gap-1">
+              <i class="fa-regular fa-copy"></i> Kopyala
+            </button>
+          </div>
+          <div id="visionOutputText" class="text-slate-200 leading-relaxed whitespace-pre-line"></div>
+        </div>
       </div>
     </section>
 
